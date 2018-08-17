@@ -1,6 +1,6 @@
 
 ## the make cache function to save the matrix in environment with the associated setter/getter matrix and 
-## setter/getter mean
+## setter/getter inverse
 makeCacheMatrix <- function(x = numeric()) {
   ##matrix field
   m <- NULL
@@ -14,24 +14,24 @@ makeCacheMatrix <- function(x = numeric()) {
   ##get matrix
   get <- function() x
   
-  ##set mean
-  setmean <- function(mean) m <<- mean
+  ##set inverse
+  setinverse <- function(inverse) m <<- inverse
   
   ##get mean
-  getmean <- function() m
+  getinverse <- function() m
 
   ##return a list of the upper function
   list(set = set, get = get,
-       setmean = setmean,
-       getmean = getmean)
+       setinverse = setinverse,
+       getinverse = getinverse)
 }
 
 
 ##calculate the mean of the special list created in the above function
-cachemean <- function(x, ...) {
+cacheinverse <- function(x, ...) {
   
   ##if the value is already in cache return 
-  m <- x$getmean()
+  m <- x$getinverse()
   if(!is.null(m)) {
     message("getting cached data")
     return(m)
@@ -39,8 +39,8 @@ cachemean <- function(x, ...) {
   
   ##otherwise calculate the mean and set in cache
   data <- x$get()
-  m <- mean(data, ...)
-  x$setmean(m)
+  m <- solve(data, ...)
+  x$setinverse(m)
   
   ##return
   m
